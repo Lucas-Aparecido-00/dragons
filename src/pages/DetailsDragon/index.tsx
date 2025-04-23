@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Dragon } from "../../@types/Dragons";
-import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import Swal from "sweetalert2";
 import "./styles.css";
@@ -8,6 +8,8 @@ import "./styles.css";
 const DetailsDragon = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const isEditMode = location.state?.edit || false;
 
   const [dragon, setDragon] = useState<Dragon>({} as Dragon);
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,6 +38,28 @@ const DetailsDragon = () => {
     }
   };
 
+  const handleInputChange = (field: keyof Dragon, value: string | string[]) => {
+    setDragon((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const saveDragon = async () => {
+    try {
+      await api.updateDragon(id!, dragon); // Atualiza o dragão na API
+      Swal.fire({
+        icon: "success",
+        title: "Sucesso",
+        text: "Dragão atualizado com sucesso!",
+      });
+      navigate("/list-dragons"); // Redireciona para a lista de dragões
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Não foi possível salvar as alterações.",
+      });
+    }
+  };
+
   useEffect(() => {
     getDetailsDragon();
   }, [id]);
@@ -46,21 +70,49 @@ const DetailsDragon = () => {
 
   return (
     <div className="details-container">
-      <h1 className="details-title">Detalhes do Dragão</h1>
+      <h1 className="details-title">
+        {isEditMode ? "Editar Dragão" : "Detalhes do Dragão"}
+      </h1>
 
       <div className="details-group">
         <label className="details-label">Nome:</label>
-        <span className="details-value">{dragon.name}</span>
+        {isEditMode ? (
+          <input
+            type="text"
+            className="details-input"
+            value={dragon.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
+          />
+        ) : (
+          <span className="details-value">{dragon.name}</span>
+        )}
       </div>
 
       <div className="details-group">
         <label className="details-label">Tipo:</label>
-        <span className="details-value">{dragon.type}</span>
+        {isEditMode ? (
+          <input
+            type="text"
+            className="details-input"
+            value={dragon.type}
+            onChange={(e) => handleInputChange("type", e.target.value)}
+          />
+        ) : (
+          <span className="details-value">{dragon.type}</span>
+        )}
       </div>
 
       <div className="details-group">
         <label className="details-label">Histórias:</label>
-        {dragon.histories && dragon.histories.length > 0 ? (
+        {isEditMode ? (
+          <textarea
+            className="details-text-area"
+            value={dragon.histories?.join("\n") || ""}
+            onChange={(e) =>
+              handleInputChange("histories", e.target.value.split("\n"))
+            }
+          />
+        ) : dragon.histories && dragon.histories.length > 0 ? (
           <ul className="details-list">
             {dragon.histories.map((history, index) => (
               <li key={index}>{history}</li>
@@ -72,19 +124,38 @@ const DetailsDragon = () => {
       </div>
 
       <div className="details-group">
-        <label className="details-label">URL da imagem:</label>
-        {dragon.imageUrl ? (
-          <a href={dragon.imageUrl} target="_blank" rel="noopener noreferrer">
-            {dragon.imageUrl}
-          </a>
+        <label className="details-label">Imagem:</label>
+        {isEditMode ? (
+          <input
+            type="text"
+            className="details-input"
+            value={dragon.imageUrl || ""}
+            onChange={(e) => handleInputChange("imageUrl", e.target.value)}
+          />
+        ) : dragon.imageUrl ? (
+          <img
+            src={dragon.imageUrl}
+            alt="Imagem do Dragão"
+            className="details-image"
+          />
         ) : (
           <span className="details-value">Nenhuma imagem disponível.</span>
         )}
       </div>
 
-      <button className="back-button" onClick={() => navigate("/list-dragons")}>
-        Voltar
-      </button>
+      <div className="details-actions">
+        <button
+          className="back-button"
+          onClick={() => navigate("/list-dragons")}
+        >
+          Voltar
+        </button>
+        {isEditMode && (
+          <button className="save-button" onClick={saveDragon}>
+            Salvar
+          </button>
+        )}
+      </div>
     </div>
   );
 };

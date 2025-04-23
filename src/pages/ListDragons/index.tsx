@@ -66,7 +66,7 @@ const ListDragons = () => {
   };
 
   const editDragon = (id: string) => {
-    navigate(`/edit-dragon/${id}`);
+    navigate(`/details-dragon/${id}`, { state: { edit: true } });
   };
 
   useEffect(() => {

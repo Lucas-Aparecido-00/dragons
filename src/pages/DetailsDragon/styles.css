@@ -26,6 +26,27 @@
   color: #374151;
 }
 
+.details-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+}
+
+.details-text-area {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #1f2937;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+}
+
 .details-value {
   font-size: 1rem;
   color: #1f2937;
@@ -53,7 +74,7 @@
 }
 
 .back-button {
-  background-color: #3b82f6; /* azul-500 */
+  background-color: #3b82f6;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -67,5 +88,39 @@
 }
 
 .back-button:hover {
-  background-color: #2563eb; /* azul-600 */
+  background-color: #2563eb;
+}
+
+.save-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+
+.details-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  gap: 8px;
+}
+
+.details-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
