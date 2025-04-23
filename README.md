@@ -19,3 +19,19 @@ npm run dev
 ```
 
 O projeto estará disponível no navegador no endereço indicado no terminal (geralmente `http://localhost:5173`).
+
+### 3. Usuário e senha para acesso
+
+Usuário: admin
+Senha: admin
+
+### 4. TOKEN
+
+Ao logar corretamente, é criado um fakeToken, caso não tenha esse fakeToken no navegador, ele redireciona automaticamente para a rota "/" Não permitindo com que o usuário tenha acesso as demais rotas sem se logar
+
+### 5. Dependências
+
+Estou utilizando as seguintes dependências no projeto
+axios: 0.27.2
+react-router-dom: 7.5.1
+sweetalert2: 11.19.1
