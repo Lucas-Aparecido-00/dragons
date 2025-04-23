@@ -88,9 +88,18 @@ const CreateDragon = () => {
         />
       </div>
 
-      <button className="submit-button" onClick={handleSubmit}>
-        Criar Dragão
-      </button>
+      <div className="footer">
+        <button
+          className="cancel-button"
+          onClick={() => navigate("/list-dragons")}
+        >
+          Abandonar
+        </button>
+
+        <button className="submit-button" onClick={handleSubmit}>
+          Criar Dragão
+        </button>
+      </div>
     </div>
   );
 };
